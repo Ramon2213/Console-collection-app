@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\frontend",
+    "\\frontend\\public",
+    "\\frontend\\public\\sounds",
+    "\\frontend\\src"
+  ],
+  "SelectedNode": "\\backend\\users.json",
+  "PreviewInSolutionExplorer": false
+}

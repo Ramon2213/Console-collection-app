@@ -1,0 +1,71 @@
+[
+  {
+    "username": "l",
+    "password": "$2b$10$jBTHPggUSICaK/N5qwrqweWoVj0eruyQKalkzi9NtcXwsfF0jgJzq",
+    "collection": [],
+    "favorites": [
+      "Intellivision",
+      "Game Boy Advance",
+      "PlayStation 2",
+      "Tapwave Zodiac",
+      "Sega SG-1000",
+      "Atari 5200",
+      "Coleco Gemini",
+      "Coleco Vision",
+      "NES"
+    ]
+  },
+  {
+    "username": "1",
+    "password": "$2b$10$fH2RApdj9dMyMmh0a/EQTuhp.jlPxq9GAryH/4xd/bENEhC1O5eTy",
+    "collection": []
+  },
+  {
+    "username": "ramon",
+    "password": "$2b$10$uQZgI8.cRZ6KMI8HWTHK.OS30pvcnhL65f9.9I9446V.2mhJcdU6e",
+    "collection": [
+      "NES",
+      "Game Boy",
+      "SNES",
+      "Nintendo 64",
+      "Game Boy Color",
+      "PlayStation 2",
+      "Game Boy Advance",
+      "Nintendo GameCube",
+      "Xbox",
+      "PlayStation Portable (PSP)",
+      "Nintendo DS",
+      "Xbox 360",
+      "Nintendo DS Lite",
+      "PlayStation 3",
+      "PSP Go",
+      "PlayStation Vita",
+      "Nintendo 3DS XL",
+      "PlayStation 4",
+      "Nintendo Switch",
+      "Steam Deck",
+      "Pocket Pikachu",
+      "Wii",
+      "Gameboy Advance SP",
+      "Nintendo Wii U",
+      "Game Boy Pocket",
+      "DSi XL",
+      "Atari 2600",
+      "New Nintendo 3DS XL",
+      "Sega Dreamcast"
+    ],
+    "favorites": [
+      "Sega Genesis / Mega Drive",
+      "PlayStation",
+      "Sega Saturn",
+      "Pokemon Mini",
+      "Gameboy Micro",
+      "Nintendo 2DS"
+    ]
+  },
+  {
+    "username": "lynn",
+    "password": "$2b$10$puJwtrIKc0ndPInZKcu.quonEgNEfvYqtZSiIZzCbutbam76eZZmu",
+    "collection": []
+  }
+]

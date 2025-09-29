@@ -1,0 +1,268 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #f5f5f5, #f0e68c);
+    overflow-x: hidden;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ================= LINKS BOVEN: LOGOUT + NAVBAR ================= */
+.top-left-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.logout-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffcb05;
+    color: #3b4cca;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+    .logout-btn:hover {
+        background-color: #e6b800;
+        transform: scale(1.05);
+    }
+
+/* Navbar knoppen naast elkaar, links uitgelijnd */
+.top-left-buttons .navbar {
+    display: flex;
+    gap: 10px;
+}
+
+    .top-left-buttons .navbar button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 10px;
+        background-color: #3b4cca;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+        .top-left-buttons .navbar button.active {
+            background-color: #ffcb05;
+            color: #3b4cca;
+        }
+
+/* ================= CARDS ================= */
+.cards-collection-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.cards-column, .collection-column {
+    flex: 1 1 0;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 250px;
+}
+
+.cards-column {
+    background-color: #e0f7fa;
+}
+
+.collection-column {
+    background-color: #fff3e0;
+}
+
+    .cards-column h3, .collection-column h3 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px 0;
+        border-radius: 10px;
+        background-color: rgba(59, 76, 202, 0.8);
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px #ffcb05;
+    }
+
+.cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.card {
+    width: 140px;
+    max-width: 140px; /* voorkomt dat de kaart breder wordt */
+    height: 200px;
+    background: linear-gradient(to bottom, #fff, #f0f0f0);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .card img.card-image {
+        width: 100%;
+        height: 120px;
+        object-fit: contain;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+.card-favorite {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+    .card-favorite:hover {
+        transform: scale(1.2);
+        filter: brightness(1.3);
+    }
+
+.card-name {
+    margin: 5px 0 5px 0;
+    font-weight: bold;
+    color: #3b4cca;
+    text-shadow: 1px 1px #ffcb05;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    text-align: center;
+    overflow: hidden;
+}
+
+.card button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+    .card button:hover {
+        background-color: #cc0000;
+        transform: translateX(-50%) scale(1.05);
+    }
+
+.clear-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+    .clear-btn:hover {
+        background-color: #cc0000;
+        transform: scale(1.05);
+    }
+
+/* ================= WISHLIST ================= */
+.wishlist-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    background-color: #e0f7fa; /* blauwe achtergrond behouden */
+    border-radius: 15px;
+}
+
+    .wishlist-wrapper h3 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        padding: 8px 0;
+        border-radius: 10px;
+        background-color: rgba(59, 76, 202, 0.8);
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px #ffcb05;
+    }
+
+    .wishlist-wrapper .clear-btn {
+        margin-bottom: 20px;
+    }
+
+    /* ================= FIX FAVORIETEN GRID ================= */
+    .wishlist-wrapper .cards-grid {
+        display: flex; /* gebruik flex zoals collectiepagina */
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    /* dezelfde card breedte als collectie */
+    .wishlist-wrapper .card {
+        width: 140px;
+        max-width: 140px;
+        height: 200px;
+    }
+
+.empty-wishlist {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    padding: 40px 0;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+    .cards-collection-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cards-column, .collection-column {
+        width: 100%;
+        flex: 1;
+    }
+
+    .wishlist-wrapper .cards-grid {
+        justify-content: center;
+    }
+}
