@@ -1,4 +1,3 @@
-﻿// We importeren React hooks en onze API-functies
 import { useState, useEffect } from 'react';
 import {
     register,
@@ -13,267 +12,322 @@ import {
 } from './api';
 import './App.css';
 
-function App() {
-    // ================= STATE VARIABELEN =================
-    // useState maakt "reactieve" variabelen aan die de UI opnieuw laten renderen als ze veranderen
-    const [username, setUsername] = useState(''); // gebruikersnaam invoer
-    const [password, setPassword] = useState(''); // wachtwoord invoer
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // check of gebruiker ingelogd is
-    const [consoles, setConsoles] = useState([]); // lijst van alle consoles
-    const [collection, setCollection] = useState([]); // lijst van consoles die gebruiker bezit
-    const [favorites, setFavorites] = useState([]); // lijst met favorieten
-    const [loading, setLoading] = useState(true); // laadstatus
-    const [currentPage, setCurrentPage] = useState('collectie'); // bepaalt welke pagina actief is
-    const [isMuted, setIsMuted] = useState(false); // mute state voor geluidjes
+// COMPONENTS
+import Navbar from './components/Navbar';
+import SearchFilters from './components/SearchFilters';
+import Modal from './components/Modal';
 
-    // ================= INITIAL LOAD (useEffect) =================
-    // Dit draait 1 keer wanneer de app geladen wordt
+// PAGES
+import AuthPage from './pages/AuthPage';
+import CollectionPage from './pages/CollectionPage';
+import WishlistPage from './pages/WishlistPage';
+
+function App() {
+    // ================= STATE =================
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [consoles, setConsoles] = useState([]);
+    const [collection, setCollection] = useState([]);
+    const [collectionDetails, setCollectionDetails] = useState({});
+    const [favorites, setFavorites] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState('collectie');
+    const [isMuted, setIsMuted] = useState(false);
+
+    // ================= SEARCH & FILTERS =================
+    const [searchTerm, setSearchTerm] = useState('');
+    const [typeFilters, setTypeFilters] = useState({ home: true, handheld: true });
+    const [manufacturerFilters, setManufacturerFilters] = useState({
+        Atari: true,
+        Nintendo: true,
+        Sega: true,
+        Sony: true,
+        Microsoft: true,
+        Other: true
+    });
+
+    // ================= MODAAL =================
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedConsole, setSelectedConsole] = useState(null);
+    const [colorStates, setColorStates] = useState({});
+    const [controllerStates, setControllerStates] = useState([]);
+    const [consoleState, setConsoleState] = useState('Goed');
+
+    // ================= INITIAL LOAD =================
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Alle consoles ophalen uit de API
                 const allConsoles = await getConsoles();
                 setConsoles(allConsoles);
 
-                // Checken of gebruiker eerder is ingelogd (in localStorage)
                 const storedUser = localStorage.getItem('loggedInUser');
                 if (storedUser) {
                     setUsername(storedUser);
                     setIsLoggedIn(true);
 
-                    // Ophalen collectie en favorieten van die gebruiker
                     const coll = await getCollection(storedUser);
                     setCollection(coll.collection || []);
+                    setCollectionDetails(coll.collectionDetails || {});
                     setFavorites(coll.favorites || []);
                 }
             } catch (err) {
                 console.error(err);
             } finally {
-                // Na laden, de loading state uitzetten
                 setLoading(false);
             }
         };
         fetchData();
-    }, []); // lege array [] betekent dat dit alleen 1 keer draait bij het mounten
+    }, []);
 
-    // ================= AUTH FUNCTIES =================
-    // Registreren
+    // ================= AUTH =================
     const handleRegister = async () => {
         const res = await register(username, password);
-        alert(res.message); // feedback naar gebruiker
+        alert(res.message);
     };
 
-    // Inloggen
     const handleLogin = async () => {
         const res = await login(username, password);
         alert(res.message);
         if (res.message.includes('Welkom')) {
             setIsLoggedIn(true);
-            localStorage.setItem('loggedInUser', username); // login opslaan in localStorage
+            localStorage.setItem('loggedInUser', username);
 
-            const coll = await getCollection(username); // collectie ophalen
+            const coll = await getCollection(username);
             setCollection(coll.collection || []);
+            setCollectionDetails(coll.collectionDetails || {});
             setFavorites(coll.favorites || []);
         }
     };
 
-    // Uitloggen
     const handleLogout = async () => {
         const res = await logout(username);
         alert(res.message);
-        setIsLoggedIn(false); // status resetten
-        setCollection([]);    // collectie leegmaken
-        setFavorites([]);     // favorieten leegmaken
-        localStorage.removeItem('loggedInUser'); // login wissen uit localStorage
+        setIsLoggedIn(false);
+        setCollection([]);
+        setCollectionDetails({});
+        setFavorites([]);
+        localStorage.removeItem('loggedInUser');
     };
 
-    // ================= MUTE FUNCTIE =================
-    // Geluid aan/uit zetten
-    const toggleMute = () => {
-        setIsMuted(prev => !prev);
+    // ================= MUTE =================
+    const toggleMute = () => setIsMuted(prev => !prev);
+
+    // ================= MODAAL =================
+    const openModal = (consoleItem) => {
+        if (!collection.includes(consoleItem.name)) return;
+
+        setSelectedConsole(consoleItem);
+
+        const details = collectionDetails[consoleItem.name] || {};
+
+        setConsoleState(details.state || 'Goed');
+
+        const initialColors = {};
+        (consoleItem.colors || []).forEach(c => {
+            const colorDetail = details.colors?.find(dc => dc.name === c);
+            initialColors[c] = {
+                active: !!colorDetail,
+                state: colorDetail?.state || 'Goed'
+            };
+        });
+        setColorStates(initialColors);
+
+        const controllerCount = details.controllers ?? 0;
+        const controllers = Array.from({ length: controllerCount }, (_, i) => ({
+            color: details.controllerColors?.[i]?.color || '',
+            state: details.controllerColors?.[i]?.state || 'Goed'
+        }));
+
+        setControllerStates(controllers.length > 0 ? controllers : []);
+        setModalOpen(true);
     };
 
-    // ================= CONSOLE FUNCTIES =================
-    // Console toevoegen aan collectie
+    // ================= COLLECTION =================
     const handleAddConsole = async (consoleItem) => {
-        if (!isMuted) new Audio('/sounds/add.wav').play(); // geluidje bij toevoegen
+        if (!isMuted) new Audio('/sounds/add.wav').play();
         await addConsole(username, consoleItem.name);
         const coll = await getCollection(username);
         setCollection(coll.collection || []);
+        setCollectionDetails(coll.collectionDetails || {});
         setFavorites(coll.favorites || []);
     };
 
-    // Console verwijderen uit collectie
     const handleRemoveConsole = async (consoleItem) => {
-        if (!isMuted) new Audio('/sounds/remove.wav').play(); // geluidje bij verwijderen
+        if (!isMuted) new Audio('/sounds/remove.wav').play();
         await removeConsole(username, consoleItem.name);
         const coll = await getCollection(username);
         setCollection(coll.collection || []);
+        setCollectionDetails(coll.collectionDetails || {});
         setFavorites(coll.favorites || []);
+        setModalOpen(false);
     };
 
-    // ================= FAVORIETEN FUNCTIE =================
-    // Toevoegen of verwijderen uit favorieten
+    // ================= FAVORITES =================
     const toggleFavorite = async (consoleItem) => {
         if (favorites.includes(consoleItem.name)) {
-            // Als de console al in favorieten staat → verwijderen
             if (currentPage === 'wishlist' && !window.confirm("Weet je het zeker?")) return;
             if (!isMuted) new Audio('/sounds/unfavorite.wav').play();
             const res = await removeFavorite(username, consoleItem.name);
             setFavorites(res.favorites || []);
         } else {
-            // Anders → toevoegen aan favorieten
             if (!isMuted) new Audio('/sounds/favorite.wav').play();
             const res = await addFavorite(username, consoleItem.name);
             setFavorites(res.favorites || []);
         }
     };
 
-    // ================= CLEAR FUNCTIES =================
-    // Hele collectie leegmaken
+    // ================= FILTERED CONSOLES =================
+    const filteredConsoles = consoles.filter(c => {
+        if (!c.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+        if (!typeFilters[c.type]) return false;
+        const man = ['Atari', 'Nintendo', 'Sega', 'Sony', 'Microsoft'].includes(c.manufacturer)
+            ? c.manufacturer
+            : 'Other';
+        if (!manufacturerFilters[man]) return false;
+        return true;
+    });
+
+    // ================= CLEAR COLLECTION =================
     const handleClearCollection = async () => {
-        if (!window.confirm("Weet je het zeker dat je je collectie wilt legen?")) return;
-        if (!isMuted) new Audio('/sounds/clear.wav').play();
-        for (const c of collection) {
-            await removeConsole(username, c); // alle consoles verwijderen
+        if (!window.confirm("Weet je zeker dat je hele collectie wilt verwijderen?")) return;
+
+        try {
+            for (const consoleName of collection) {
+                await removeConsole(username, consoleName);
+            }
+            setCollection([]);
+            setCollectionDetails({});
+            setFavorites([]);
+        } catch (err) {
+            console.error("Kon collectie niet wissen:", err);
+            alert("Er is iets misgegaan bij het legen van je collectie.");
         }
-        const coll = await getCollection(username);
-        setCollection(coll.collection || []);
-        setFavorites(coll.favorites || []);
     };
 
-    // Alle favorieten leegmaken
-    const handleClearFavorites = async () => {
-        if (!window.confirm("Weet je het zeker dat je al je favorieten wilt legen?")) return;
-        if (!isMuted) new Audio('/sounds/clear.wav').play();
-        for (const f of favorites) {
-            await removeFavorite(username, f); // alle favorieten verwijderen
+    // ================= CLEAR WISHLIST =================
+    const handleClearWishlist = async () => {
+        if (!window.confirm("Weet je zeker dat je alle favorieten wilt verwijderen?")) return;
+
+        for (const name of favorites) {
+            await removeFavorite(username, name);
         }
-        const coll = await getCollection(username);
-        setFavorites(coll.favorites || []);
+
+        setFavorites([]);
     };
 
-    // ================= HELPER FUNCTIES =================
-    // Als een afbeelding niet laadt → toon placeholder
-    const handleImageError = (e) => {
-        e.target.src = "/images/placeholder.png";
-    };
+    // ================= AUTOSAVE MODAAL =================
+    useEffect(() => {
+        if (!selectedConsole) return;
 
-    // ================= RENDER =================
-    // Als data nog niet geladen is → laadscherm tonen
+        const saveDetails = async () => {
+            const selectedColors = Object.entries(colorStates)
+                .filter(([_, v]) => v.active)
+                .map(([name, v]) => ({ name, state: v.state }));
+
+            const controllersToSave = controllerStates.map(c => ({
+                color: c.color || '',
+                state: c.state || 'Goed'
+            }));
+
+            try {
+                const res = await fetch('http://localhost:3000/collection/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username,
+                        consoleName: selectedConsole.name,
+                        controllers: controllerStates.length,
+                        controllerColors: controllersToSave,
+                        colors: selectedColors,
+                        state: consoleState
+                    })
+                });
+
+                const json = await res.json();
+                if (json.collectionDetails) setCollectionDetails(json.collectionDetails);
+            } catch (err) {
+                console.error('Autosave error:', err);
+            }
+        };
+
+        saveDetails();
+    }, [colorStates, controllerStates, consoleState, selectedConsole, username]);
+
+    // ================= CONDITIONAL RENDER =================
     if (loading) return <div>Loading...</div>;
+
+    if (!isLoggedIn) {
+        return <AuthPage
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+            handleRegister={handleRegister}
+        />;
+    }
 
     return (
         <div className="app-wrapper">
-            {/* Als gebruiker NIET ingelogd is → login/register scherm */}
-            {!isLoggedIn ? (
-                <div className="auth-container-wrapper">
-                    <div className="auth-container">
-                        <h2>Register / Login</h2>
-                        <form
-                            className="auth-form"
-                            onSubmit={(e) => { e.preventDefault(); handleLogin(); }}
-                        >
-                            <input
-                                placeholder="Username"
-                                value={username}
-                                onChange={e => setUsername(e.target.value)} // update username state
-                            />
-                            <input
-                                placeholder="Password"
-                                type="password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)} // update password state
-                            />
-                            <div className="button-group">
-                                <button type="button" onClick={handleRegister}>Register</button>
-                                <button type="submit">Login</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            ) : (
-                <>
-                    {/* ================= LINKS BOVEN: LOGOUT + MUTE + NAVBAR ================= */}
-                    <div className="top-left-buttons">
-                        <button className="logout-btn" onClick={handleLogout}>Logout</button>
-                        <button className="mute-btn" onClick={toggleMute}>
-                            {isMuted ? "Unmute 🔊" : "🔇"}
-                        </button>
-                        <div className="navbar">
-                            <button
-                                className={currentPage === 'collectie' ? 'active' : ''}
-                                onClick={() => setCurrentPage('collectie')}
-                            >
-                                Jouw Collectie
-                            </button>
-                            <button
-                                className={currentPage === 'wishlist' ? 'active' : ''}
-                                onClick={() => setCurrentPage('wishlist')}
-                            >
-                                Wishlist
-                            </button>
-                        </div>
-                    </div>
+            {/* NAVBAR */}
+            <Navbar
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                isMuted={isMuted}
+                toggleMute={toggleMute}
+                handleLogout={handleLogout}
+            />
 
-                    {/* ================= PAGINA INHOUD ================= */}
-                    {currentPage === 'collectie' ? (
-                        <div className="cards-collection-wrapper">
-                            {/* Linkerkolom = consoles die je nog NIET hebt */}
-                            <div className="cards-column">
-                                <h3>Alle Consoles ({consoles.length - collection.length} nog niet in collectie)</h3>
-                                <div className="cards-grid">
-                                    {consoles.filter(c => !collection.includes(c.name)).map(consoleItem => (
-                                        <div key={consoleItem.name} className="card">
-                                            <img src={consoleItem.image} alt={consoleItem.name} className="card-image" onError={handleImageError} />
-                                            <img src={favorites.includes(consoleItem.name) ? "/images/star-filled.png" : "/images/star-empty.png"}
-                                                alt="" className="card-favorite" onClick={() => toggleFavorite(consoleItem)} />
-                                            <div className="card-name">{consoleItem.name}</div>
-                                            <button onClick={() => handleAddConsole(consoleItem)}>Add</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+            {/* SEARCH & FILTERS */}
+            <SearchFilters
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                typeFilters={typeFilters}
+                setTypeFilters={setTypeFilters}
+                manufacturerFilters={manufacturerFilters}
+                setManufacturerFilters={setManufacturerFilters}
+            />
 
-                            {/* Rechterkolom = jouw collectie */}
-                            <div className="collection-column">
-                                <h3>Jouw Collectie ({collection.length})</h3>
-                                <button className="clear-btn" onClick={handleClearCollection}>Clear Collection</button>
-                                <div className="cards-grid">
-                                    {consoles.filter(c => collection.includes(c.name)).map(consoleItem => (
-                                        <div key={consoleItem.name} className="card">
-                                            <img src={consoleItem.image} alt={consoleItem.name} className="card-image" onError={handleImageError} />
-                                            <div className="card-name">{consoleItem.name}</div>
-                                            <button onClick={() => handleRemoveConsole(consoleItem)}>Remove</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    ) : (
-                        // ================= WISHLIST PAGINA =================
-                        <div className="wishlist-wrapper">
-                            <h3>Favorieten ({favorites.length})</h3>
-                            {favorites.length > 0 && (
-                                <button className="clear-btn" onClick={handleClearFavorites}>Clear Favorites</button>
-                            )}
+            {/* PAGINA CONTENT */}
+            {currentPage === 'collectie' && (
+                <CollectionPage
+                    consoles={consoles}
+                    collection={collection}
+                    collectionDetails={collectionDetails}
+                    favorites={favorites}
+                    handleAddConsole={handleAddConsole}
+                    handleRemoveConsole={handleRemoveConsole}
+                    toggleFavorite={toggleFavorite}
+                    openModal={openModal}
+                    handleClearCollection={handleClearCollection}
+                    filteredConsoles={filteredConsoles}
+                />
+            )}
 
-                            {favorites.length === 0 ? (
-                                <div className="empty-wishlist">Je hebt nog geen favorieten</div>
-                            ) : (
-                                <div className="cards-grid">
-                                    {consoles.filter(c => favorites.includes(c.name) && !collection.includes(c.name)).map(consoleItem => (
-                                        <div key={consoleItem.name} className="card">
-                                            <img src={consoleItem.image} alt={consoleItem.name} className="card-image" onError={handleImageError} />
-                                            <img src="/images/star-filled.png" alt="" className="card-favorite" onClick={() => toggleFavorite(consoleItem)} />
-                                            <div className="card-name">{consoleItem.name}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </>
+            {currentPage === 'wishlist' && (
+                <WishlistPage
+                    favorites={favorites}
+                    consoles={consoles}
+                    toggleFavorite={toggleFavorite}
+                    collection={collection}
+                    handleClearWishlist={handleClearWishlist}
+                />
+            )}
+
+            {/* MODAAL */}
+            {modalOpen && selectedConsole && (
+                <Modal
+                    consoleItem={selectedConsole}
+                    colorStates={colorStates}
+                    setColorStates={setColorStates}
+                    controllerStates={controllerStates}
+                    setControllerStates={setControllerStates}
+                    consoleState={consoleState}
+                    setConsoleState={setConsoleState}
+                    onRemove={() => handleRemoveConsole(selectedConsole)}
+                    onClose={() => setModalOpen(false)}
+                />
             )}
         </div>
     );

@@ -1,71 +1,509 @@
 [
   {
-    "username": "l",
-    "password": "$2b$10$jBTHPggUSICaK/N5qwrqweWoVj0eruyQKalkzi9NtcXwsfF0jgJzq",
-    "collection": [],
+    "username": "ll",
+    "password": "$2b$10$e8ZNhDUIjAIICwuZSAmLteFUNEaCVw2wHJ73nNWFHO9vLo7uegdSC",
+    "collection": [
+      "Atari 2600"
+    ],
     "favorites": [
-      "Intellivision",
-      "Game Boy Advance",
-      "PlayStation 2",
-      "Tapwave Zodiac",
-      "Sega SG-1000",
-      "Atari 5200",
-      "Coleco Gemini",
-      "Coleco Vision",
-      "NES"
-    ]
-  },
-  {
-    "username": "1",
-    "password": "$2b$10$fH2RApdj9dMyMmh0a/EQTuhp.jlPxq9GAryH/4xd/bENEhC1O5eTy",
-    "collection": []
+      "Magnavox Odyssey 2",
+      "Intellivision"
+    ],
+    "collectionDetails": {
+      "Atari 2600": {
+        "controllers": 0,
+        "controllerColors": [],
+        "colors": [
+          {
+            "name": "Zwart",
+            "state": "Slecht"
+          }
+        ]
+      }
+    }
   },
   {
     "username": "ramon",
-    "password": "$2b$10$uQZgI8.cRZ6KMI8HWTHK.OS30pvcnhL65f9.9I9446V.2mhJcdU6e",
+    "password": "$2b$10$pIAeJClc9NAxjHNuBEFkhuGxkgZ78Qv7oMEz7UXSNVHEWg7QZG7Za",
     "collection": [
-      "NES",
-      "Game Boy",
-      "SNES",
-      "Nintendo 64",
       "Game Boy Color",
-      "PlayStation 2",
-      "Game Boy Advance",
-      "Nintendo GameCube",
-      "Xbox",
-      "PlayStation Portable (PSP)",
-      "Nintendo DS",
-      "Xbox 360",
-      "Nintendo DS Lite",
-      "PlayStation 3",
-      "PSP Go",
-      "PlayStation Vita",
-      "Nintendo 3DS XL",
-      "PlayStation 4",
-      "Nintendo Switch",
-      "Steam Deck",
-      "Pocket Pikachu",
-      "Wii",
-      "Gameboy Advance SP",
-      "Nintendo Wii U",
-      "Game Boy Pocket",
-      "DSi XL",
-      "Atari 2600",
-      "New Nintendo 3DS XL",
-      "Sega Dreamcast"
+      "Commodore 64"
     ],
     "favorites": [
-      "Sega Genesis / Mega Drive",
-      "PlayStation",
-      "Sega Saturn",
-      "Pokemon Mini",
-      "Gameboy Micro",
-      "Nintendo 2DS"
-    ]
+      "Atari Pong"
+    ],
+    "collectionDetails": {
+      "Game Boy Color": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Paars",
+            "state": "Nieuw"
+          },
+          {
+            "name": "Rood",
+            "state": "Goed"
+          },
+          {
+            "name": "Groen",
+            "state": "Slecht"
+          },
+          {
+            "name": "AtomicPurple",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Commodore 64": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Beige",
+            "state": "Goed"
+          }
+        ]
+      }
+    }
   },
   {
-    "username": "lynn",
-    "password": "$2b$10$puJwtrIKc0ndPInZKcu.quonEgNEfvYqtZSiIZzCbutbam76eZZmu",
-    "collection": []
+    "username": "l",
+    "password": "$2b$10$7BKF3XoJP218sAMIPiqO2OdWDVwhVT77MxPGtubvJMfhM/gkEev5a",
+    "collection": [],
+    "favorites": [],
+    "collectionDetails": {
+      "Atari 5200": {
+        "controllers": 0,
+        "controllerColors": [],
+        "colors": [],
+        "state": "Goed"
+      },
+      "Magnavox Odyssey": {
+        "controllers": 2,
+        "controllerColors": [
+          {
+            "color": "standard",
+            "state": "Goed"
+          },
+          {
+            "color": "standard",
+            "state": "Gebruikt"
+          }
+        ],
+        "colors": [],
+        "state": "Goed"
+      }
+    }
+  },
+  {
+    "username": "q",
+    "password": "$2b$10$Bnd7AbjCIxn7eDWnW6DBWecRU9KqyZpAWZn5UjSeM4YfFecx5V.wy",
+    "collection": [
+      "Magnavox Odyssey",
+      "Atari 2600",
+      "Atari Pong",
+      "Color TV-Game",
+      "Color TV-Game Racing 112",
+      "Color TV-Game Block Kuzushi",
+      "Game Boy Color",
+      "PlayStation",
+      "Xbox Series X",
+      "Xbox Series S",
+      "Atari Jaguar",
+      "Neo Geo AES",
+      "Nintendo GameCube",
+      "Wii U",
+      "Wii",
+      "Nintendo Switch",
+      "Nintendo Switch 2",
+      "Nintendo Switch Lite",
+      "Ouya",
+      "PlayStation 2",
+      "PlayStation 3",
+      "PlayStation 4",
+      "PlayStation 5",
+      "Sega Dreamcast",
+      "Xbox",
+      "Xbox 360",
+      "Commodore 64",
+      "Coleco Gemini"
+    ],
+    "favorites": [
+      "Intellivision"
+    ],
+    "collectionDetails": {
+      "Magnavox Odyssey": {
+        "controllers": 4,
+        "controllerColors": [
+          {
+            "color": "",
+            "state": "Goed"
+          },
+          {
+            "color": "",
+            "state": "Goed"
+          },
+          {
+            "color": "",
+            "state": "Goed"
+          },
+          {
+            "color": "",
+            "state": "Goed"
+          }
+        ],
+        "state": "Goed",
+        "colors": []
+      },
+      "Atari 2600": {
+        "controllers": 4,
+        "controllerColors": [
+          {
+            "color": "joystick-zwart",
+            "state": "Goed"
+          },
+          {
+            "color": "joystick-woody",
+            "state": "Goed"
+          },
+          {
+            "color": "paddle-zwart",
+            "state": "Goed"
+          },
+          {
+            "color": "keyboard-zwart",
+            "state": "Goed"
+          }
+        ],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Woody",
+            "state": "Goed"
+          },
+          {
+            "name": "Zwart",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Atari Pong": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Grijs",
+            "state": "Goed"
+          },
+          {
+            "name": "Bruin",
+            "state": "Goed"
+          },
+          {
+            "name": "SuperPong",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Color TV-Game": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "6",
+            "state": "Goed"
+          },
+          {
+            "name": "15",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Color TV-Game Racing 112": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Color TV-Game Block Kuzushi": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Game Boy Color": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Paars",
+            "state": "Goed"
+          },
+          {
+            "name": "Blauw",
+            "state": "Goed"
+          },
+          {
+            "name": "Rood",
+            "state": "Goed"
+          },
+          {
+            "name": "Groen",
+            "state": "Goed"
+          },
+          {
+            "name": "Geel",
+            "state": "Goed"
+          },
+          {
+            "name": "AtomicPurple",
+            "state": "Goed"
+          }
+        ]
+      },
+      "PlayStation": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Xbox Series X": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Xbox Series S": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Atari Jaguar": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Neo Geo AES": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Nintendo GameCube": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Paars",
+            "state": "Goed"
+          },
+          {
+            "name": "Zwart",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Wii U": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Wii": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Nintendo Switch": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Nintendo Switch 2": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Nintendo Switch Lite": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Ouya": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "PlayStation 2": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "PlayStation 3": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "PlayStation 4": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "PlayStation 5": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Sega Dreamcast": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Xbox": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Xbox 360": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Commodore 64": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      },
+      "Coleco Gemini": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      }
+    }
+  },
+  {
+    "username": "stinkie",
+    "password": "$2b$10$.ItBU5Dp259DmjVmZqZBju8IlsQ88cADw0p.xF8fJOiph17FU9VBC",
+    "collection": [
+      "Atari 2600",
+      "Game Boy Color",
+      "Magnavox Odyssey"
+    ],
+    "favorites": [],
+    "collectionDetails": {
+      "Atari 2600": {
+        "controllers": 3,
+        "controllerColors": [
+          {
+            "color": "keyboard-zwart",
+            "state": "Gebruikt"
+          },
+          {
+            "color": "joystick-woody",
+            "state": "Goed"
+          },
+          {
+            "color": "joystick-zwart",
+            "state": "Gebruikt"
+          }
+        ],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Woody",
+            "state": "Goed"
+          },
+          {
+            "name": "Zwart",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Game Boy Color": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": [
+          {
+            "name": "Paars",
+            "state": "Goed"
+          },
+          {
+            "name": "Blauw",
+            "state": "Goed"
+          },
+          {
+            "name": "Rood",
+            "state": "Goed"
+          },
+          {
+            "name": "Groen",
+            "state": "Goed"
+          },
+          {
+            "name": "Geel",
+            "state": "Goed"
+          },
+          {
+            "name": "AtomicPurple",
+            "state": "Goed"
+          }
+        ]
+      },
+      "Magnavox Odyssey": {
+        "controllers": 2,
+        "controllerColors": [
+          {
+            "color": "standard",
+            "state": "Goed"
+          },
+          {
+            "color": "standard",
+            "state": "Gebruikt"
+          }
+        ],
+        "state": "Goed",
+        "colors": []
+      }
+    }
+  },
+  {
+    "username": "k",
+    "password": "$2b$10$B3RyEAefQUKVmxl4FSIfoet3Ng595hQzKO5o6MfYDcHLmiCFwqDbm",
+    "collection": [
+      "Atari 2600"
+    ],
+    "favorites": [],
+    "collectionDetails": {
+      "Atari 2600": {
+        "controllers": 0,
+        "controllerColors": [],
+        "state": "Goed",
+        "colors": []
+      }
+    }
   }
 ]

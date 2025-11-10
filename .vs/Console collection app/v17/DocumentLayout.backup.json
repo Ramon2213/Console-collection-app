@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\consolelist.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\consolelist.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\main.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\CollectionPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\CollectionPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\App.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\AuthPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\AuthPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\WishListPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:frontend\\src\\pages\\WishListPage.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -37,54 +45,88 @@
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "main.jsx",
-              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\main.jsx",
-              "RelativeDocumentMoniker": "frontend\\src\\main.jsx",
-              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\main.jsx",
-              "RelativeToolTip": "frontend\\src\\main.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-09-29T06:39:38.776Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "consolelist.js",
+              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\consolelist.js",
+              "RelativeDocumentMoniker": "backend\\consolelist.js",
+              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\consolelist.js",
+              "RelativeToolTip": "backend\\consolelist.js",
+              "ViewState": "AgIAAMgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-11-03T17:00:08.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "App.css",
               "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.css",
               "RelativeDocumentMoniker": "frontend\\src\\App.css",
               "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.css",
               "RelativeToolTip": "frontend\\src\\App.css",
-              "ViewState": "AgIAANwAAAAAAAAAAAAgwAkBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGkBAAAAAAAAAAAIwJwBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-09-22T10:07:29.427Z"
+              "WhenOpened": "2025-11-03T15:14:31.006Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "CollectionPage.jsx",
+              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\CollectionPage.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\CollectionPage.jsx",
+              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\CollectionPage.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\CollectionPage.jsx",
+              "ViewState": "AgIAACMAAAAAAAAAAAAQwFUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-03T13:06:56.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "App.jsx",
               "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.jsx",
               "RelativeDocumentMoniker": "frontend\\src\\App.jsx",
               "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\App.jsx",
               "RelativeToolTip": "frontend\\src\\App.jsx",
-              "ViewState": "AgIAAOMAAAAAAAAAAAAcwA8BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYBAAAAAAAAAAAQwGgBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-09-15T12:09:44.454Z"
+              "WhenOpened": "2025-11-03T13:03:21.341Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "server.js",
-              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\server.js",
-              "RelativeDocumentMoniker": "backend\\server.js",
-              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\backend\\server.js",
-              "RelativeToolTip": "backend\\server.js",
-              "ViewState": "AgIAALQAAAAAAAAAAAAcwOAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-09-15T12:09:29.808Z",
-              "EditorCaption": ""
+              "DocumentIndex": 5,
+              "Title": "WishListPage.jsx",
+              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\WishListPage.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\WishListPage.jsx",
+              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\WishListPage.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\WishListPage.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-03T13:02:50.232Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthPage.jsx",
+              "DocumentMoniker": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\AuthPage.jsx",
+              "RelativeDocumentMoniker": "frontend\\src\\pages\\AuthPage.jsx",
+              "ToolTip": "C:\\Users\\ramon\\Documents\\Applicatie Ontwikkeling\\Mijn Projecten\\Console collection app\\frontend\\src\\pages\\AuthPage.jsx",
+              "RelativeToolTip": "frontend\\src\\pages\\AuthPage.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-11-03T13:00:48.021Z"
             }
           ]
         }

@@ -4,9 +4,10 @@
     "\\backend",
     "\\frontend",
     "\\frontend\\public",
-    "\\frontend\\public\\sounds",
-    "\\frontend\\src"
+    "\\frontend\\src",
+    "\\frontend\\src\\components",
+    "\\frontend\\src\\pages"
   ],
-  "SelectedNode": "\\backend\\users.json",
+  "SelectedNode": "\\frontend\\src\\pages\\CollectionPage.jsx",
   "PreviewInSolutionExplorer": false
 }

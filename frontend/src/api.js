@@ -1,77 +1,84 @@
-const API_URL = 'http://localhost:3000';
+// api.js
+const BASE_URL = 'http://localhost:3000';
 
-// ================= AUTH =================
-export const register = async (username, password) => {
-    const res = await fetch(`${API_URL}/register`, {
+export async function register(username, password) {
+    const res = await fetch(`${BASE_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     });
     return res.json();
-};
+}
 
-export const login = async (username, password) => {
-    const res = await fetch(`${API_URL}/login`, {
+export async function login(username, password) {
+    const res = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     });
     return res.json();
-};
+}
 
-export const logout = async (username) => {
-    const res = await fetch(`${API_URL}/logout`, {
+export async function logout(username) {
+    const res = await fetch(`${BASE_URL}/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username })
     });
     return res.json();
-};
+}
 
-// ================= CONSOLES =================
-export const getConsoles = async () => {
-    const res = await fetch(`${API_URL}/consoles`);
+export async function getConsoles() {
+    const res = await fetch(`${BASE_URL}/consoles`);
     return res.json();
-};
+}
 
-export const getCollection = async (username) => {
-    const res = await fetch(`${API_URL}/collection?username=${username}`);
+export async function getCollection(username) {
+    const res = await fetch(`${BASE_URL}/collection?username=${encodeURIComponent(username)}`);
     return res.json();
-};
+}
 
-export const addConsole = async (username, consoleName) => {
-    const res = await fetch(`${API_URL}/collection/add`, {
+export async function addConsole(username, consoleName) {
+    const res = await fetch(`${BASE_URL}/collection/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, consoleName })
     });
     return res.json();
-};
+}
 
-export const removeConsole = async (username, consoleName) => {
-    const res = await fetch(`${API_URL}/collection/remove`, {
+export async function removeConsole(username, consoleName) {
+    const res = await fetch(`${BASE_URL}/collection/remove`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, consoleName })
+    });
+    return res.json();
+}
+
+export async function addFavorite(username, consoleName) {
+    const res = await fetch(`${BASE_URL}/collection/favorite/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, consoleName })
     });
     return res.json();
-};
+}
 
-// ================= FAVORITES =================
-export const addFavorite = async (username, consoleName) => {
-    const res = await fetch(`${API_URL}/collection/favorite/add`, {
-        method: 'POST',
+export async function removeFavorite(username, consoleName) {
+    const res = await fetch(`${BASE_URL}/collection/favorite/remove`, {
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, consoleName })
     });
     return res.json();
-};
+}
 
-export const removeFavorite = async (username, consoleName) => {
-    const res = await fetch(`${API_URL}/collection/favorite/remove`, {
+export async function updateConsoleDetails(username, consoleName, controllers, controllerColors, colors, state) {
+    const res = await fetch(`${BASE_URL}/collection/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, consoleName })
+        body: JSON.stringify({ username, consoleName, controllers, controllerColors, colors, state })
     });
     return res.json();
-};
+}

@@ -1,0 +1,10 @@
+.sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #007bff;
+}

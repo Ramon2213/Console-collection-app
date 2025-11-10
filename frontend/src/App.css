@@ -1,7 +1,11 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #f5f5f5, #f0e68c);
+    font-family: 'Press Start 2P', monospace;
+    background-color: #0d0d0d;
+    background-image: url('/images/wallpaper.jpg');
+    background-repeat: repeat;
+    background-size: 300px 500px;
+    color: #ffffff;
     overflow-x: hidden;
 }
 
@@ -14,7 +18,7 @@ body {
     box-sizing: border-box;
 }
 
-/* ================= LINKS BOVEN: LOGOUT + NAVBAR ================= */
+/* ================= TOP LEFT BUTTONS ================= */
 .top-left-buttons {
     display: flex;
     flex-direction: column;
@@ -23,43 +27,94 @@ body {
     margin-bottom: 20px;
 }
 
-.logout-btn {
+.logout-btn, .mute-btn {
     padding: 10px 16px;
     border: none;
     border-radius: 10px;
-    background-color: #ffcb05;
-    color: #3b4cca;
+    background-color: #ff00ff;
+    color: #0d0d0d;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s, transform 0.2s;
 }
 
-    .logout-btn:hover {
-        background-color: #e6b800;
+    .logout-btn:hover, .mute-btn:hover {
+        background-color: #00ffff;
         transform: scale(1.05);
     }
 
-/* Navbar knoppen naast elkaar, links uitgelijnd */
-.top-left-buttons .navbar {
+.navbar {
     display: flex;
     gap: 10px;
+    margin-top: 5px;
 }
 
-    .top-left-buttons .navbar button {
+    .navbar button {
         padding: 10px 16px;
         border: none;
         border-radius: 10px;
-        background-color: #3b4cca;
-        color: white;
+        background-color: #00ffff;
+        color: #0d0d0d;
         font-weight: bold;
         cursor: pointer;
         transition: background 0.3s, transform 0.2s;
     }
 
-        .top-left-buttons .navbar button.active {
-            background-color: #ffcb05;
-            color: #3b4cca;
+        .navbar button.active {
+            background-color: #ff00ff;
+            color: #0d0d0d;
         }
+
+/* ================= SEARCH + FILTERS ================= */
+.search-filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    min-height: 100px;
+    
+}
+
+.search-input {
+    margin-top: 4%;
+    padding: 4px 8px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid #aaaaaa;
+    width: 250px;
+    max-width: 90%;
+    font-size: 0.85rem;
+    box-sizing: border-box;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.filters-wrapper {
+    background-color: #1a1a1a;
+    padding-bottom: 23px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+    min-width: 1970px;
+    
+}
+
+    .filters-wrapper input[type="checkbox"] {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .filters-wrapper label {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #ffffff;
+    }
 
 /* ================= CARDS ================= */
 .cards-collection-wrapper {
@@ -68,25 +123,20 @@ body {
     gap: 40px;
     width: 100%;
     flex-wrap: wrap;
+    min-height: 500px;
 }
 
 .cards-column, .collection-column {
     flex: 1 1 0;
     border-radius: 15px;
     padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,255,255,0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 250px;
-}
-
-.cards-column {
-    background-color: #e0f7fa;
-}
-
-.collection-column {
-    background-color: #fff3e0;
+    min-height: 400px;
+    background-color: #1a1a1a;
 }
 
     .cards-column h3, .collection-column h3 {
@@ -95,10 +145,10 @@ body {
         margin-bottom: 15px;
         padding: 8px 0;
         border-radius: 10px;
-        background-color: rgba(59, 76, 202, 0.8);
-        color: white;
+        background-color: #00ffff;
+        color: #0d0d0d;
         font-weight: bold;
-        text-shadow: 1px 1px #ffcb05;
+        text-shadow: 1px 1px #ffff00;
     }
 
 .cards-grid {
@@ -110,32 +160,29 @@ body {
 
 .card {
     width: 140px;
-    max-width: 140px; /* voorkomt dat de kaart breder wordt */
     height: 200px;
-    background: linear-gradient(to bottom, #fff, #f0f0f0);
+    background: linear-gradient(to bottom, #111111, #1a1a1a);
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,255,255,0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    overflow: hidden;
     position: relative;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
     .card:hover {
         transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 20px #ff00ff;
     }
 
     .card img.card-image {
         width: 100%;
         height: 120px;
         object-fit: contain;
-        background-color: #f0f0f0;
+        background-color: #111111;
         border-radius: 10px;
-        flex-shrink: 0;
     }
 
 .card-favorite {
@@ -156,8 +203,7 @@ body {
 .card-name {
     margin: 5px 0 5px 0;
     font-weight: bold;
-    color: #3b4cca;
-    text-shadow: 1px 1px #ffcb05;
+    color: #00ffff;
     font-size: 0.9rem;
     line-height: 1.2;
     text-align: center;
@@ -173,7 +219,7 @@ body {
     border: none;
     border-radius: 8px;
     background-color: #ff0000;
-    color: white;
+    color: #0d0d0d;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
@@ -189,7 +235,7 @@ body {
     border: none;
     border-radius: 8px;
     background-color: #ff0000;
-    color: white;
+    color: #0d0d0d;
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 15px;
@@ -207,8 +253,9 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
-    background-color: #e0f7fa; /* blauwe achtergrond behouden */
+    background-color: #1a1a1a;
     border-radius: 15px;
+    min-height: 400px;
 }
 
     .wishlist-wrapper h3 {
@@ -217,36 +264,24 @@ body {
         margin-bottom: 10px;
         padding: 8px 0;
         border-radius: 10px;
-        background-color: rgba(59, 76, 202, 0.8);
-        color: white;
+        background-color: #00ffff;
+        color: #0d0d0d;
         font-weight: bold;
-        text-shadow: 1px 1px #ffcb05;
+        text-shadow: 1px 1px #ffff00;
     }
 
-    .wishlist-wrapper .clear-btn {
-        margin-bottom: 20px;
-    }
-
-    /* ================= FIX FAVORIETEN GRID ================= */
     .wishlist-wrapper .cards-grid {
-        display: flex; /* gebruik flex zoals collectiepagina */
+        display: flex;
         flex-wrap: wrap;
         gap: 15px;
         justify-content: center;
-    }
-
-    /* dezelfde card breedte als collectie */
-    .wishlist-wrapper .card {
-        width: 140px;
-        max-width: 140px;
-        height: 200px;
     }
 
 .empty-wishlist {
     width: 100%;
     text-align: center;
     font-size: 1.1rem;
-    color: #666;
+    color: #aaaaaa;
     padding: 40px 0;
 }
 
@@ -265,4 +300,114 @@ body {
     .wishlist-wrapper .cards-grid {
         justify-content: center;
     }
+}
+
+
+/* ================= MODAAL ================= */
+.modal-overlay {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5); /* half-transparante achtergrond */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* boven alles */
+}
+
+.modal-content {
+    border: 3px solid #ffffff;
+    background-color: #0d0d0d;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.modal-content label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.modal-content select {
+    margin-left: 10px;
+}
+
+.modal-content div {
+    margin-bottom: 15px;
+}
+
+.modal-content button {
+    display: block;
+    margin: 0 auto;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.removebutton{
+    background-color: darkred;
+}
+
+.modal-image {
+    max-height: 300px;
+    max-width: 300px;
+}
+
+.modal-content img {
+    max-width: 200px; /* of wat jij passend vindt */
+    max-height: 150px; /* houd verhouding goed */
+    width: auto;
+    height: auto;
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+
+
+/*AUTH PAGINA */
+
+.auth-container-wrapper {
+
+    height: 25vh;
+    margin-left: 73vh;
+
+}
+
+.auth-container {
+    background-color: darkslategrey;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+}
+
+.button-group {
+    margin-top: 1vh;
+}
+.login {
+    margin-left: 1vh;
+}
+.input-username{
+    margin-right: 5px;
 }

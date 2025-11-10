@@ -1,0 +1,218 @@
+/* ================= ALGEMENE MODAAL ================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    padding: 20px;
+    max-width: 800px;
+    width: 95%;
+    border-radius: 8px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.modal-image {
+    width: 100%;
+    max-height: 50px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    transition: filter 0.3s ease;
+}
+
+.controller-selection,
+.color-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+    .controller-selection img,
+    .color-item img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        border-radius: 4px;
+        transition: filter 0.3s ease;
+    }
+
+    .controller-selection select,
+    .color-item select {
+        padding: 4px 6px;
+    }
+
+    .color-item span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #000;
+        border-radius: 3px;
+    }
+
+.removebutton {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.active-color-image {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    transition: filter 0.3s ease;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+/* ================= KLEUREN VINKJES ================= */
+.colors-list {
+    display: flex;
+    flex-wrap: wrap; /* vinkjes naast elkaar */
+    gap: 10px;
+}
+
+/* ================= ACTIEVE CONSOLE KLEUREN ================= */
+.active-color-images {
+    display: flex;
+    flex-wrap: wrap; /* meerdere afbeeldingen naast elkaar */
+    gap: 10px;
+}
+
+.active-color-item {
+    display: flex;
+    flex-direction: column; /* plaatje boven, select-box onder */
+    align-items: center; /* horizontaal centreren */
+}
+
+    .active-color-item img {
+        width: 200px; /* vaste breedte */
+        height: 200px; /* vaste hoogte */
+        object-fit: contain;
+        margin-bottom: 5px; /* ruimte tussen plaatje en dropdown */
+        flex-shrink: 0; /* voorkomt dat grotere plaatjes dropdown naar beneden duwen */
+        transition: filter 0.3s ease;
+    }
+
+        /* ================= HOVER GLOW VOOR ALLE PLAATJES ================= */
+        .modal-image:hover,
+        .controller-selection img:hover,
+        .color-item img:hover,
+        .active-color-item img:hover {
+            filter: drop-shadow(0 0 15px rgb(255, 0, 225, 0.70));
+        }
+
+/* ================= UITVERGROTING MODAAL ================= */
+.image-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.image-modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 900px;
+    height: 900px;
+    position: relative;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-modal-overlay.show .image-modal-content {
+    transform: scale(1);
+}
+
+.image-modal-img {
+    max-width: 90%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    transition: none; /* geen hover-glow voor uitvergroot */
+}
+
+.dimensions {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* ================= PLAY BUTTON MET PROGRESS ================= */
+.play-button-wrapper {
+    position: relative;
+    width: 250px;
+    margin: 15px auto; /* horizontaal centreren */
+}
+
+.play-button {
+    position: relative;
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+
+
+    font-weight: bold;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+    .play-button:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+.progress-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.25);
+    pointer-events: none;
+    z-index: 1;
+    transition: width 0.1s linear;
+}
+.play-button.playing {
+    background-color: #f44336;
+}
