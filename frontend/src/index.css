@@ -23,11 +23,12 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-color: #242424;
+    color: #ffffff;
+    min-width: 320px;
+    min-height: 100vh;
 }
 
 h1 {

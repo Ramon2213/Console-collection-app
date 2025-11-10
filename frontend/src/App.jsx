@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import {
     register,
     login,
@@ -16,6 +17,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import SearchFilters from './components/SearchFilters';
 import Modal from './components/Modal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // PAGES
 import AuthPage from './pages/AuthPage';
@@ -32,10 +34,9 @@ function App() {
     const [collectionDetails, setCollectionDetails] = useState({});
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState('collectie');
     const [isMuted, setIsMuted] = useState(false);
 
-    // ================= SEARCH & FILTERS =================
+    // ================= FILTERS =================
     const [searchTerm, setSearchTerm] = useState('');
     const [typeFilters, setTypeFilters] = useState({ home: true, handheld: true });
     const [manufacturerFilters, setManufacturerFilters] = useState({
@@ -45,6 +46,18 @@ function App() {
         Sony: true,
         Microsoft: true,
         Other: true
+    });
+
+    // ================= SLIDERS =================
+    const [sliderValues, setSliderValues] = useState({
+        lengte: 0,
+        breedte: 0,
+        hoogte: 0
+    });
+    const [maxDimensions, setMaxDimensions] = useState({
+        lengte: 0,
+        breedte: 0,
+        hoogte: 0
     });
 
     // ================= MODAAL =================
@@ -60,6 +73,17 @@ function App() {
             try {
                 const allConsoles = await getConsoles();
                 setConsoles(allConsoles);
+
+                // Bepaal maximale dimensies
+                if (allConsoles.length > 0) {
+                    const maxDim = {
+                        lengte: Math.max(...allConsoles.map(c => Number(c.lengte) || 0)),
+                        breedte: Math.max(...allConsoles.map(c => Number(c.breedte) || 0)),
+                        hoogte: Math.max(...allConsoles.map(c => Number(c.hoogte) || 0)),
+                    };
+                    setMaxDimensions(maxDim);
+                    setSliderValues(maxDim); // sliders starten bij max
+                }
 
                 const storedUser = localStorage.getItem('loggedInUser');
                 if (storedUser) {
@@ -120,7 +144,6 @@ function App() {
         setSelectedConsole(consoleItem);
 
         const details = collectionDetails[consoleItem.name] || {};
-
         setConsoleState(details.state || 'Goed');
 
         const initialColors = {};
@@ -166,7 +189,6 @@ function App() {
     // ================= FAVORITES =================
     const toggleFavorite = async (consoleItem) => {
         if (favorites.includes(consoleItem.name)) {
-            if (currentPage === 'wishlist' && !window.confirm("Weet je het zeker?")) return;
             if (!isMuted) new Audio('/sounds/unfavorite.wav').play();
             const res = await removeFavorite(username, consoleItem.name);
             setFavorites(res.favorites || []);
@@ -181,141 +203,123 @@ function App() {
     const filteredConsoles = consoles.filter(c => {
         if (!c.name.toLowerCase().includes(searchTerm.toLowerCase())) return false;
         if (!typeFilters[c.type]) return false;
+
         const man = ['Atari', 'Nintendo', 'Sega', 'Sony', 'Microsoft'].includes(c.manufacturer)
             ? c.manufacturer
             : 'Other';
         if (!manufacturerFilters[man]) return false;
+
+        // Filter op sliders
+        if (Number(c.lengte) > sliderValues.lengte) return false;
+        if (Number(c.breedte) > sliderValues.breedte) return false;
+        if (Number(c.hoogte) > sliderValues.hoogte) return false;
+
         return true;
     });
 
     // ================= CLEAR COLLECTION =================
     const handleClearCollection = async () => {
         if (!window.confirm("Weet je zeker dat je hele collectie wilt verwijderen?")) return;
-
-        try {
-            for (const consoleName of collection) {
-                await removeConsole(username, consoleName);
-            }
-            setCollection([]);
-            setCollectionDetails({});
-            setFavorites([]);
-        } catch (err) {
-            console.error("Kon collectie niet wissen:", err);
-            alert("Er is iets misgegaan bij het legen van je collectie.");
+        for (const consoleName of collection) {
+            await removeConsole(username, consoleName);
         }
+        setCollection([]);
+        setCollectionDetails({});
+        setFavorites([]);
     };
 
     // ================= CLEAR WISHLIST =================
     const handleClearWishlist = async () => {
         if (!window.confirm("Weet je zeker dat je alle favorieten wilt verwijderen?")) return;
-
         for (const name of favorites) {
             await removeFavorite(username, name);
         }
-
         setFavorites([]);
     };
-
-    // ================= AUTOSAVE MODAAL =================
-    useEffect(() => {
-        if (!selectedConsole) return;
-
-        const saveDetails = async () => {
-            const selectedColors = Object.entries(colorStates)
-                .filter(([_, v]) => v.active)
-                .map(([name, v]) => ({ name, state: v.state }));
-
-            const controllersToSave = controllerStates.map(c => ({
-                color: c.color || '',
-                state: c.state || 'Goed'
-            }));
-
-            try {
-                const res = await fetch('http://localhost:3000/collection/update', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username,
-                        consoleName: selectedConsole.name,
-                        controllers: controllerStates.length,
-                        controllerColors: controllersToSave,
-                        colors: selectedColors,
-                        state: consoleState
-                    })
-                });
-
-                const json = await res.json();
-                if (json.collectionDetails) setCollectionDetails(json.collectionDetails);
-            } catch (err) {
-                console.error('Autosave error:', err);
-            }
-        };
-
-        saveDetails();
-    }, [colorStates, controllerStates, consoleState, selectedConsole, username]);
 
     // ================= CONDITIONAL RENDER =================
     if (loading) return <div>Loading...</div>;
 
-    if (!isLoggedIn) {
-        return <AuthPage
-            username={username}
-            setUsername={setUsername}
-            password={password}
-            setPassword={setPassword}
-            handleLogin={handleLogin}
-            handleRegister={handleRegister}
-        />;
-    }
-
     return (
-        <div className="app-wrapper">
-            {/* NAVBAR */}
-            <Navbar
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                isMuted={isMuted}
-                toggleMute={toggleMute}
-                handleLogout={handleLogout}
-            />
-
-            {/* SEARCH & FILTERS */}
-            <SearchFilters
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                typeFilters={typeFilters}
-                setTypeFilters={setTypeFilters}
-                manufacturerFilters={manufacturerFilters}
-                setManufacturerFilters={setManufacturerFilters}
-            />
-
-            {/* PAGINA CONTENT */}
-            {currentPage === 'collectie' && (
-                <CollectionPage
-                    consoles={consoles}
-                    collection={collection}
-                    collectionDetails={collectionDetails}
-                    favorites={favorites}
-                    handleAddConsole={handleAddConsole}
-                    handleRemoveConsole={handleRemoveConsole}
-                    toggleFavorite={toggleFavorite}
-                    openModal={openModal}
-                    handleClearCollection={handleClearCollection}
-                    filteredConsoles={filteredConsoles}
+        <BrowserRouter>
+            {isLoggedIn && (
+                <Navbar
+                    currentPage={window.location.pathname.substring(1) || 'collectie'}
+                    setCurrentPage={(page) => window.history.pushState({}, '', `/${page}`)}
+                    isMuted={isMuted}
+                    toggleMute={toggleMute}
+                    handleLogout={handleLogout}
                 />
             )}
 
-            {currentPage === 'wishlist' && (
-                <WishlistPage
-                    favorites={favorites}
-                    consoles={consoles}
-                    toggleFavorite={toggleFavorite}
-                    collection={collection}
-                    handleClearWishlist={handleClearWishlist}
+            {isLoggedIn && (
+                <SearchFilters
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    typeFilters={typeFilters}
+                    setTypeFilters={setTypeFilters}
+                    manufacturerFilters={manufacturerFilters}
+                    setManufacturerFilters={setManufacturerFilters}
+                    sliderValues={sliderValues}
+                    setSliderValues={setSliderValues}
+                    maxDimensions={maxDimensions}
                 />
             )}
 
-            {/* MODAAL */}
+            <Routes>
+                <Route
+                    path="/login"
+                    element={
+                        isLoggedIn ? (
+                            <Navigate to="/collectie" replace />
+                        ) : (
+                            <AuthPage
+                                username={username}
+                                setUsername={setUsername}
+                                password={password}
+                                setPassword={setPassword}
+                                handleLogin={handleLogin}
+                                handleRegister={handleRegister}
+                            />
+                        )
+                    }
+                />
+                <Route
+                    path="/collectie"
+                    element={
+                        <ProtectedRoute isLoggedIn={isLoggedIn}>
+                            <CollectionPage
+                                consoles={consoles}
+                                collection={collection}
+                                collectionDetails={collectionDetails}
+                                favorites={favorites}
+                                handleAddConsole={handleAddConsole}
+                                handleRemoveConsole={handleRemoveConsole}
+                                toggleFavorite={toggleFavorite}
+                                openModal={openModal}
+                                handleClearCollection={handleClearCollection}
+                                filteredConsoles={filteredConsoles}
+                            />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/wishlist"
+                    element={
+                        <ProtectedRoute isLoggedIn={isLoggedIn}>
+                            <WishlistPage
+                                favorites={favorites}
+                                consoles={consoles}
+                                toggleFavorite={toggleFavorite}
+                                collection={collection}
+                                handleClearWishlist={handleClearWishlist}
+                            />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+
             {modalOpen && selectedConsole && (
                 <Modal
                     consoleItem={selectedConsole}
@@ -329,7 +333,7 @@ function App() {
                     onClose={() => setModalOpen(false)}
                 />
             )}
-        </div>
+        </BrowserRouter>
     );
 }
 

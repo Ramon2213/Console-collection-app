@@ -74,7 +74,6 @@ body {
     margin-bottom: 20px;
     width: 100%;
     min-height: 100px;
-    
 }
 
 .search-input {
@@ -101,7 +100,6 @@ body {
     justify-content: center;
     margin-bottom: 20px;
     min-width: 1970px;
-    
 }
 
     .filters-wrapper input[type="checkbox"] {
@@ -302,20 +300,18 @@ body {
     }
 }
 
-
 /* ================= MODAAL ================= */
 .modal-overlay {
-
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5); /* half-transparante achtergrond */
+    background: rgba(0,0,0,0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* boven alles */
+    z-index: 9999;
 }
 
 .modal-content {
@@ -365,7 +361,7 @@ body {
     cursor: pointer;
 }
 
-.removebutton{
+.removebutton {
     background-color: darkred;
 }
 
@@ -375,24 +371,20 @@ body {
 }
 
 .modal-content img {
-    max-width: 200px; /* of wat jij passend vindt */
-    max-height: 150px; /* houd verhouding goed */
+    max-width: 200px;
+    max-height: 150px;
     width: auto;
     height: auto;
     display: block;
     margin-bottom: 5px;
 }
 
-
-
-
-/*AUTH PAGINA */
-
+/* ================= AUTH PAGINA ================= */
 .auth-container-wrapper {
-
-    height: 25vh;
-    margin-left: 73vh;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .auth-container {
@@ -400,14 +392,17 @@ body {
     padding: 20px;
     border-radius: 8px;
     width: 400px;
+    text-align: center;
 }
 
 .button-group {
     margin-top: 1vh;
 }
+
 .login {
     margin-left: 1vh;
 }
-.input-username{
+
+.input-username {
     margin-right: 5px;
 }

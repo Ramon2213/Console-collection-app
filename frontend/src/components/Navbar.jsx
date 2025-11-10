@@ -1,4 +1,8 @@
-export default function Navbar({ currentPage, setCurrentPage, isMuted, toggleMute, handleLogout }) {
+import { Link, useLocation } from 'react-router-dom';
+
+export default function Navbar({ isMuted, toggleMute, handleLogout }) {
+    const location = useLocation();
+
     return (
         <div className="top-left-buttons">
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
@@ -6,18 +10,16 @@ export default function Navbar({ currentPage, setCurrentPage, isMuted, toggleMut
                 {isMuted ? "Unmute " : "Mute"}
             </button>
             <div className="navbar">
-                <button
-                    className={currentPage === 'collectie' ? 'active' : ''}
-                    onClick={() => setCurrentPage('collectie')}
-                >
-                    Jouw Collectie
-                </button>
-                <button
-                    className={currentPage === 'wishlist' ? 'active' : ''}
-                    onClick={() => setCurrentPage('wishlist')}
-                >
-                    Wishlist
-                </button>
+                <Link to="/collectie">
+                    <button className={location.pathname === '/collectie' ? 'active' : ''}>
+                        Jouw Collectie
+                    </button>
+                </Link>
+                <Link to="/wishlist">
+                    <button className={location.pathname === '/wishlist' ? 'active' : ''}>
+                        Wishlist
+                    </button>
+                </Link>
             </div>
         </div>
     );
