@@ -1,13 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend",
-    "\\frontend",
     "\\frontend\\public",
     "\\frontend\\src",
     "\\frontend\\src\\components",
     "\\frontend\\src\\pages"
   ],
-  "SelectedNode": "\\backend\\server.js",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }

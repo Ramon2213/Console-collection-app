@@ -49,16 +49,9 @@ function App() {
     });
 
     // ================= SLIDERS =================
-    const [sliderValues, setSliderValues] = useState({
-        lengte: 0,
-        breedte: 0,
-        hoogte: 0
-    });
-    const [maxDimensions, setMaxDimensions] = useState({
-        lengte: 0,
-        breedte: 0,
-        hoogte: 0
-    });
+    const [sliderValues, setSliderValues] = useState({ lengte: 0, breedte: 0, hoogte: 0 });
+    const [minDimensions, setMinDimensions] = useState({ lengte: 0, breedte: 0, hoogte: 0 });
+    const [maxDimensions, setMaxDimensions] = useState({ lengte: 0, breedte: 0, hoogte: 0 });
 
     // ================= MODAAL =================
     const [modalOpen, setModalOpen] = useState(false);
@@ -74,15 +67,20 @@ function App() {
                 const allConsoles = await getConsoles();
                 setConsoles(allConsoles);
 
-                // Bepaal maximale dimensies
                 if (allConsoles.length > 0) {
-                    const maxDim = {
-                        lengte: Math.max(...allConsoles.map(c => Number(c.lengte) || 0)),
-                        breedte: Math.max(...allConsoles.map(c => Number(c.breedte) || 0)),
-                        hoogte: Math.max(...allConsoles.map(c => Number(c.hoogte) || 0)),
+                    const minDim = {
+                        lengte: Math.min(...allConsoles.map(c => c.dimensions.length)),
+                        breedte: Math.min(...allConsoles.map(c => c.dimensions.width)),
+                        hoogte: Math.min(...allConsoles.map(c => c.dimensions.height)),
                     };
+                    const maxDim = {
+                        lengte: Math.max(...allConsoles.map(c => c.dimensions.length)),
+                        breedte: Math.max(...allConsoles.map(c => c.dimensions.width)),
+                        hoogte: Math.max(...allConsoles.map(c => c.dimensions.height)),
+                    };
+                    setMinDimensions(minDim);
                     setMaxDimensions(maxDim);
-                    setSliderValues(maxDim); // sliders starten bij max
+                    setSliderValues(maxDim); // start sliders op max zodat alles zichtbaar is
                 }
 
                 const storedUser = localStorage.getItem('loggedInUser');
@@ -149,10 +147,7 @@ function App() {
         const initialColors = {};
         (consoleItem.colors || []).forEach(c => {
             const colorDetail = details.colors?.find(dc => dc.name === c);
-            initialColors[c] = {
-                active: !!colorDetail,
-                state: colorDetail?.state || 'Goed'
-            };
+            initialColors[c] = { active: !!colorDetail, state: colorDetail?.state || 'Goed' };
         });
         setColorStates(initialColors);
 
@@ -209,10 +204,10 @@ function App() {
             : 'Other';
         if (!manufacturerFilters[man]) return false;
 
-        // Filter op sliders
-        if (Number(c.lengte) > sliderValues.lengte) return false;
-        if (Number(c.breedte) > sliderValues.breedte) return false;
-        if (Number(c.hoogte) > sliderValues.hoogte) return false;
+        // filter op sliders
+        if (c.dimensions.length > sliderValues.lengte) return false;
+        if (c.dimensions.width > sliderValues.breedte) return false;
+        if (c.dimensions.height > sliderValues.hoogte) return false;
 
         return true;
     });
@@ -262,6 +257,7 @@ function App() {
                     setManufacturerFilters={setManufacturerFilters}
                     sliderValues={sliderValues}
                     setSliderValues={setSliderValues}
+                    minDimensions={minDimensions}
                     maxDimensions={maxDimensions}
                 />
             )}
