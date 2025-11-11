@@ -9,7 +9,8 @@ import {
     addConsole,
     removeConsole,
     addFavorite,
-    removeFavorite
+    removeFavorite,
+    updateConsoleDetails
 } from './api';
 import './App.css';
 
@@ -34,7 +35,6 @@ function App() {
     const [collectionDetails, setCollectionDetails] = useState({});
     const [favorites, setFavorites] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isMuted, setIsMuted] = useState(false);
 
     // ================= FILTERS =================
     const [searchTerm, setSearchTerm] = useState('');
@@ -132,16 +132,20 @@ function App() {
         localStorage.removeItem('loggedInUser');
     };
 
-    // ================= MUTE =================
-    const toggleMute = () => setIsMuted(prev => !prev);
-
-    // ================= MODAAL =================
+    // ================= MODAAL OPEN =================
     const openModal = (consoleItem) => {
         if (!collection.includes(consoleItem.name)) return;
 
         setSelectedConsole(consoleItem);
 
-        const details = collectionDetails[consoleItem.name] || {};
+        // haal altijd de meest recente details uit collectionDetails
+        const details = collectionDetails[consoleItem.name] || {
+            colors: [],
+            controllerColors: [],
+            controllers: 0,
+            state: 'Goed'
+        };
+
         setConsoleState(details.state || 'Goed');
 
         const initialColors = {};
@@ -156,14 +160,39 @@ function App() {
             color: details.controllerColors?.[i]?.color || '',
             state: details.controllerColors?.[i]?.state || 'Goed'
         }));
-
         setControllerStates(controllers.length > 0 ? controllers : []);
+
         setModalOpen(true);
+    };
+
+    // ================= MODAAL SAVE LOGICA =================
+    const saveModalChanges = async (updatedColors, updatedControllers, updatedState) => {
+        if (!selectedConsole) return;
+
+        const colorData = Object.entries(updatedColors)
+            .filter(([_, data]) => data.active)
+            .map(([name, data]) => ({ name, state: data.state }));
+
+        await updateConsoleDetails(username, selectedConsole.name, {
+            colors: colorData,
+            controllerColors: updatedControllers.map(c => ({ color: c.color, state: c.state })),
+            controllers: updatedControllers.length,
+            state: updatedState
+        });
+
+        setCollectionDetails(prev => ({
+            ...prev,
+            [selectedConsole.name]: {
+                colors: colorData,
+                controllerColors: updatedControllers.map(c => ({ color: c.color, state: c.state })),
+                controllers: updatedControllers.length,
+                state: updatedState
+            }
+        }));
     };
 
     // ================= COLLECTION =================
     const handleAddConsole = async (consoleItem) => {
-        if (!isMuted) new Audio('/sounds/add.wav').play();
         await addConsole(username, consoleItem.name);
         const coll = await getCollection(username);
         setCollection(coll.collection || []);
@@ -172,7 +201,6 @@ function App() {
     };
 
     const handleRemoveConsole = async (consoleItem) => {
-        if (!isMuted) new Audio('/sounds/remove.wav').play();
         await removeConsole(username, consoleItem.name);
         const coll = await getCollection(username);
         setCollection(coll.collection || []);
@@ -184,11 +212,9 @@ function App() {
     // ================= FAVORITES =================
     const toggleFavorite = async (consoleItem) => {
         if (favorites.includes(consoleItem.name)) {
-            if (!isMuted) new Audio('/sounds/unfavorite.wav').play();
             const res = await removeFavorite(username, consoleItem.name);
             setFavorites(res.favorites || []);
         } else {
-            if (!isMuted) new Audio('/sounds/favorite.wav').play();
             const res = await addFavorite(username, consoleItem.name);
             setFavorites(res.favorites || []);
         }
@@ -204,7 +230,6 @@ function App() {
             : 'Other';
         if (!manufacturerFilters[man]) return false;
 
-        // filter op sliders
         if (c.dimensions.length > sliderValues.lengte) return false;
         if (c.dimensions.width > sliderValues.breedte) return false;
         if (c.dimensions.height > sliderValues.hoogte) return false;
@@ -241,8 +266,6 @@ function App() {
                 <Navbar
                     currentPage={window.location.pathname.substring(1) || 'collectie'}
                     setCurrentPage={(page) => window.history.pushState({}, '', `/${page}`)}
-                    isMuted={isMuted}
-                    toggleMute={toggleMute}
                     handleLogout={handleLogout}
                 />
             )}
@@ -320,11 +343,20 @@ function App() {
                 <Modal
                     consoleItem={selectedConsole}
                     colorStates={colorStates}
-                    setColorStates={setColorStates}
+                    setColorStates={(colors) => {
+                        setColorStates(colors);
+                        saveModalChanges(colors, controllerStates, consoleState);
+                    }}
                     controllerStates={controllerStates}
-                    setControllerStates={setControllerStates}
+                    setControllerStates={(controllers) => {
+                        setControllerStates(controllers);
+                        saveModalChanges(colorStates, controllers, consoleState);
+                    }}
                     consoleState={consoleState}
-                    setConsoleState={setConsoleState}
+                    setConsoleState={(state) => {
+                        setConsoleState(state);
+                        saveModalChanges(colorStates, controllerStates, state);
+                    }}
                     onRemove={() => handleRemoveConsole(selectedConsole)}
                     onClose={() => setModalOpen(false)}
                 />

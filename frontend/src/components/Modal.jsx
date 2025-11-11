@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState, useRef } from 'react';
 import './Modal.css';
+import { updateConsoleDetails } from '../api';
 
 const formatConsoleName = (name) =>
     name.toLowerCase().replace(/\s+/g, '').replace(/\./g, '');
@@ -16,26 +17,27 @@ function Modal({
     consoleState,
     setConsoleState,
     onRemove,
-    onClose
+    onClose,
+    username // <- toegevoegd
 }) {
     // ================= IMAGE MODAL =================
     const [imageModalOpen, setImageModalOpen] = useState(false);
     const [imageModalSrc, setImageModalSrc] = useState('');
     const [imageModalVariants, setImageModalVariants] = useState([]);
-    const [hideMainModal, setHideMainModal] = useState(false); // hoofdmodaal verbergen
+    const [hideMainModal, setHideMainModal] = useState(false);
 
     const openImageModal = (variants) => {
         setImageModalVariants(variants);
         setImageModalSrc(variants[0]);
         setImageModalOpen(true);
-        setHideMainModal(true); // hoofdmodaal verbergen
+        setHideMainModal(true);
     };
 
     const closeImageModal = () => {
         setImageModalOpen(false);
         setImageModalSrc('');
         setImageModalVariants([]);
-        setHideMainModal(false); // hoofdmodaal weer tonen
+        setHideMainModal(false);
     };
 
     // ================= HANDLE OVERLAY & ESC =================
@@ -54,56 +56,87 @@ function Modal({
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [onClose, imageModalOpen]);
 
-    // ================= COLOR TOGGLE =================
-    const toggleColor = (color) => {
-        setColorStates((prev) => ({
-            ...prev,
-            [color]: {
-                active: !prev[color]?.active,
-                state: prev[color]?.state || 'Goed'
-            }
+    // ================= SAVE CHANGES =================
+    const saveChanges = async (updatedColors, updatedControllers, updatedConsoleState) => {
+        const colorsPayload = Object.keys(updatedColors).map(color => ({
+            name: color,
+            state: updatedColors[color].state
         }));
+        const controllerColorsPayload = updatedControllers.map(c => ({
+            color: c.color,
+            state: c.state
+        }));
+
+        await updateConsoleDetails(
+            username,
+            consoleItem.name,
+            updatedControllers.length,
+            controllerColorsPayload,
+            colorsPayload,
+            updatedConsoleState
+        );
     };
 
-    const handleColorStateChange = (color, value) => {
-        setColorStates((prev) => ({
-            ...prev,
+    // ================= COLOR TOGGLE =================
+    const toggleColor = async (color) => {
+        const newColors = {
+            ...colorStates,
             [color]: {
-                ...prev[color],
+                active: !colorStates[color]?.active,
+                state: colorStates[color]?.state || 'Goed'
+            }
+        };
+        setColorStates(newColors);
+        await saveChanges(newColors, controllerStates, consoleState);
+    };
+
+    const handleColorStateChange = async (color, value) => {
+        const newColors = {
+            ...colorStates,
+            [color]: {
+                ...colorStates[color],
                 state: value
             }
-        }));
+        };
+        setColorStates(newColors);
+        await saveChanges(newColors, controllerStates, consoleState);
     };
 
     // ================= CONTROLLERS =================
-    const handleControllerCountChange = (e) => {
+    const handleControllerCountChange = async (e) => {
         const value = parseInt(e.target.value, 10);
         if (isNaN(value) || value < 0) return;
 
-        setControllerStates((prev) => {
-            const copy = [...prev];
-            if (value > copy.length) {
-                while (copy.length < value)
-                    copy.push({ color: '', state: 'Goed', imageKey: Date.now() });
-            } else {
-                copy.length = value;
-            }
-            return copy;
-        });
+        const newControllers = [...controllerStates];
+        if (value > newControllers.length) {
+            while (newControllers.length < value)
+                newControllers.push({ color: '', state: 'Goed', imageKey: Date.now() });
+        } else {
+            newControllers.length = value;
+        }
+
+        setControllerStates(newControllers);
+        await saveChanges(colorStates, newControllers, consoleState);
     };
 
-    const handleControllerChange = (index, key, value) => {
-        setControllerStates((prev) => {
-            const copy = [...prev];
-            copy[index] = {
-                ...copy[index],
-                [key]: value,
-                ...(key === 'color' ? { imageKey: Date.now() } : {})
-            };
-            return copy;
-        });
+    const handleControllerChange = async (index, key, value) => {
+        const copy = [...controllerStates];
+        copy[index] = {
+            ...copy[index],
+            [key]: value,
+            ...(key === 'color' ? { imageKey: Date.now() } : {})
+        };
+        setControllerStates(copy);
+        await saveChanges(colorStates, copy, consoleState);
     };
 
+    // ================= CONSOLE STATE CHANGE =================
+    const handleConsoleStateChange = async (value) => {
+        setConsoleState(value);
+        await saveChanges(colorStates, controllerStates, value);
+    };
+
+    // ================= IMAGE HELPERS =================
     const getControllerImageVariants = (consoleName, color) => {
         const rawName = consoleName;
         const rawColor = color;
@@ -184,7 +217,6 @@ function Modal({
 
                     <h3>{consoleItem.name}</h3>
 
-                    {/* ================= PLAY-KNOP MET PROGRESS ================= */}
                     <div className="play-button-wrapper">
                         <button
                             onClick={handlePlay}
@@ -198,14 +230,12 @@ function Modal({
                         </button>
                     </div>
 
-                    {/* ================= AFMETINGEN ================= */}
                     <div className="dimensions">
                         {consoleItem.dimensions
                             ? `Afmetingen: ${consoleItem.dimensions.length} x ${consoleItem.dimensions.width} x ${consoleItem.dimensions.height} cm (lxbxh)`
                             : 'Afmetingen onbekend'}
                     </div>
 
-                    {/* ================= STANDAARD PLAATJE ================= */}
                     {(!consoleItem.colors || consoleItem.colors.length <= 1) && (
                         <img
                             src={consoleItem.image}
@@ -216,7 +246,6 @@ function Modal({
                         />
                     )}
 
-                    {/* ================= CONSOLE KLEUREN ================= */}
                     {consoleItem.colors?.length > 1 && (
                         <div className="console-colors">
                             <h4>Kleuren:</h4>
@@ -263,7 +292,6 @@ function Modal({
                         </div>
                     )}
 
-                    {/* ================= CONTROLLERS ================= */}
                     <div className="controllers-section">
                         <label>
                             Aantal controllers:
@@ -320,14 +348,12 @@ function Modal({
                         </div>
                     </div>
 
-                    {/* ================= REMOVE ================= */}
                     <div className="remove-section">
                         <button className="removebutton" onClick={onRemove}>Remove from Collection</button>
                     </div>
                 </div>
             </div>
 
-            {/* ================= UITVERGROTINGS MODAAL ================= */}
             {imageModalOpen && (
                 <div className="image-modal-overlay" onClick={closeImageModal}>
                     <div className="image-modal-content">

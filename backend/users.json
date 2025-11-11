@@ -3,21 +3,33 @@
     "username": "q",
     "password": "$2b$10$TwzNULwikt.HJErT8utlIODVWnxMs7PqbgPRKYFJ52yfMsBmHLIJS",
     "collection": [
-      "Atari 2600",
-      "Game Boy Color"
+      "Atari 2600"
     ],
     "favorites": [
       "Magnavox Odyssey 2"
     ],
     "collectionDetails": {
       "Atari 2600": {
-        "controllers": 0,
-        "controllerColors": [],
-        "state": "Goed",
-        "colors": []
-      },
-      "Game Boy Color": {
-        "controllers": 0,
+        "controllers": {
+          "colors": [
+            {
+              "name": "Woody",
+              "state": "Goed"
+            }
+          ],
+          "controllerColors": [
+            {
+              "color": "",
+              "state": "Goed"
+            },
+            {
+              "color": "joystick-woody",
+              "state": "Goed"
+            }
+          ],
+          "controllers": 2,
+          "state": "Goed"
+        },
         "controllerColors": [],
         "state": "Goed",
         "colors": []
