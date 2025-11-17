@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import {
     register,
@@ -24,6 +24,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AuthPage from './pages/AuthPage';
 import CollectionPage from './pages/CollectionPage';
 import WishlistPage from './pages/WishlistPage';
+import ConsolesPage from './pages/ConsolesPage';
 
 function App() {
     // ================= STATE =================
@@ -80,7 +81,7 @@ function App() {
                     };
                     setMinDimensions(minDim);
                     setMaxDimensions(maxDim);
-                    setSliderValues(maxDim); // start sliders op max zodat alles zichtbaar is
+                    setSliderValues(maxDim);
                 }
 
                 const storedUser = localStorage.getItem('loggedInUser');
@@ -132,20 +133,13 @@ function App() {
         localStorage.removeItem('loggedInUser');
     };
 
-    // ================= MODAAL OPEN =================
+    // ================= MODAAL =================
     const openModal = (consoleItem) => {
         if (!collection.includes(consoleItem.name)) return;
 
         setSelectedConsole(consoleItem);
 
-        // haal altijd de meest recente details uit collectionDetails
-        const details = collectionDetails[consoleItem.name] || {
-            colors: [],
-            controllerColors: [],
-            controllers: 0,
-            state: 'Goed'
-        };
-
+        const details = collectionDetails[consoleItem.name] || {};
         setConsoleState(details.state || 'Goed');
 
         const initialColors = {};
@@ -165,28 +159,29 @@ function App() {
         setModalOpen(true);
     };
 
-    // ================= MODAAL SAVE LOGICA =================
-    const saveModalChanges = async (updatedColors, updatedControllers, updatedState) => {
+    const saveModalChanges = async () => {
         if (!selectedConsole) return;
 
-        const colorData = Object.entries(updatedColors)
-            .filter(([_, data]) => data.active)
-            .map(([name, data]) => ({ name, state: data.state }));
+        const colorsArray = Object.entries(colorStates)
+            .filter(([_, val]) => val.active)
+            .map(([name, val]) => ({ name, state: val.state }));
 
-        await updateConsoleDetails(username, selectedConsole.name, {
-            colors: colorData,
-            controllerColors: updatedControllers.map(c => ({ color: c.color, state: c.state })),
-            controllers: updatedControllers.length,
-            state: updatedState
-        });
+        await updateConsoleDetails(
+            username,
+            selectedConsole.name,
+            controllerStates.length,
+            controllerStates,
+            colorsArray,
+            consoleState
+        );
 
         setCollectionDetails(prev => ({
             ...prev,
             [selectedConsole.name]: {
-                colors: colorData,
-                controllerColors: updatedControllers.map(c => ({ color: c.color, state: c.state })),
-                controllers: updatedControllers.length,
-                state: updatedState
+                controllers: controllerStates.length,
+                controllerColors: controllerStates,
+                colors: colorsArray,
+                state: consoleState
             }
         }));
     };
@@ -207,6 +202,21 @@ function App() {
         setCollectionDetails(coll.collectionDetails || {});
         setFavorites(coll.favorites || []);
         setModalOpen(false);
+    };
+
+    const handleClearCollection = async () => {
+        for (const c of [...collection]) {
+            await removeConsole(username, c);
+        }
+        setCollection([]);
+        setCollectionDetails({});
+    };
+
+    const handleClearWishlist = async () => {
+        for (const f of [...favorites]) {
+            await removeFavorite(username, f);
+        }
+        setFavorites([]);
     };
 
     // ================= FAVORITES =================
@@ -237,27 +247,6 @@ function App() {
         return true;
     });
 
-    // ================= CLEAR COLLECTION =================
-    const handleClearCollection = async () => {
-        if (!window.confirm("Weet je zeker dat je hele collectie wilt verwijderen?")) return;
-        for (const consoleName of collection) {
-            await removeConsole(username, consoleName);
-        }
-        setCollection([]);
-        setCollectionDetails({});
-        setFavorites([]);
-    };
-
-    // ================= CLEAR WISHLIST =================
-    const handleClearWishlist = async () => {
-        if (!window.confirm("Weet je zeker dat je alle favorieten wilt verwijderen?")) return;
-        for (const name of favorites) {
-            await removeFavorite(username, name);
-        }
-        setFavorites([]);
-    };
-
-    // ================= CONDITIONAL RENDER =================
     if (loading) return <div>Loading...</div>;
 
     return (
@@ -316,8 +305,8 @@ function App() {
                                 handleRemoveConsole={handleRemoveConsole}
                                 toggleFavorite={toggleFavorite}
                                 openModal={openModal}
-                                handleClearCollection={handleClearCollection}
                                 filteredConsoles={filteredConsoles}
+                                handleClearCollection={handleClearCollection}
                             />
                         </ProtectedRoute>
                     }
@@ -336,6 +325,23 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/consoles"
+                    element={
+                        <ProtectedRoute isLoggedIn={isLoggedIn}>
+                            <ConsolesPage
+                                consoles={consoles}
+                                collection={collection}
+                                collectionDetails={collectionDetails}
+                                favorites={favorites}
+                                toggleFavorite={toggleFavorite}
+                                handleAddConsole={handleAddConsole}
+                                openModal={openModal}
+                                filteredConsoles={filteredConsoles}
+                            />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
 
@@ -343,22 +349,17 @@ function App() {
                 <Modal
                     consoleItem={selectedConsole}
                     colorStates={colorStates}
-                    setColorStates={(colors) => {
-                        setColorStates(colors);
-                        saveModalChanges(colors, controllerStates, consoleState);
-                    }}
+                    setColorStates={setColorStates}
                     controllerStates={controllerStates}
-                    setControllerStates={(controllers) => {
-                        setControllerStates(controllers);
-                        saveModalChanges(colorStates, controllers, consoleState);
-                    }}
+                    setControllerStates={setControllerStates}
                     consoleState={consoleState}
-                    setConsoleState={(state) => {
-                        setConsoleState(state);
-                        saveModalChanges(colorStates, controllerStates, state);
-                    }}
+                    setConsoleState={setConsoleState}
                     onRemove={() => handleRemoveConsole(selectedConsole)}
-                    onClose={() => setModalOpen(false)}
+                    onClose={async () => {
+                        await saveModalChanges();
+                        setModalOpen(false);
+                    }}
+                    username={username}
                 />
             )}
         </BrowserRouter>

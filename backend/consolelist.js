@@ -163,8 +163,8 @@ const allConsoles = [
         year: 1978,
         type: "home",
         manufacturer: "Magnavox",
-        colors: ["Wit", "Zwart"],
-        controllerColors: [],
+        colors: ["zilver"],
+        controllerColors: ["Zwart"],
         sound: false, // Start direct in BIOS-scherm zonder geluid
         dimensions: { length: 47.0, width: 25.0, height: 10.0 } // cm
     },

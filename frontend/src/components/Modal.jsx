@@ -18,8 +18,10 @@ function Modal({
     setConsoleState,
     onRemove,
     onClose,
-    username // <- toegevoegd
+    username
 }) {
+    if (!username) console.warn('Geen username meegegeven! Changes niet opgeslagen.');
+
     // ================= IMAGE MODAL =================
     const [imageModalOpen, setImageModalOpen] = useState(false);
     const [imageModalSrc, setImageModalSrc] = useState('');
@@ -58,23 +60,28 @@ function Modal({
 
     // ================= SAVE CHANGES =================
     const saveChanges = async (updatedColors, updatedControllers, updatedConsoleState) => {
-        const colorsPayload = Object.keys(updatedColors).map(color => ({
-            name: color,
-            state: updatedColors[color].state
-        }));
+        if (!username) return;
+        const colorsPayload = Object.keys(updatedColors)
+            .filter(key => updatedColors[key].active)
+            .map(key => ({ name: key, state: updatedColors[key].state }));
+
         const controllerColorsPayload = updatedControllers.map(c => ({
             color: c.color,
             state: c.state
         }));
 
-        await updateConsoleDetails(
-            username,
-            consoleItem.name,
-            updatedControllers.length,
-            controllerColorsPayload,
-            colorsPayload,
-            updatedConsoleState
-        );
+        try {
+            await updateConsoleDetails(
+                username,
+                consoleItem.name,
+                updatedControllers.length,
+                controllerColorsPayload,
+                colorsPayload,
+                updatedConsoleState
+            );
+        } catch (err) {
+            console.error('Error saving console details:', err);
+        }
     };
 
     // ================= COLOR TOGGLE =================
@@ -93,10 +100,7 @@ function Modal({
     const handleColorStateChange = async (color, value) => {
         const newColors = {
             ...colorStates,
-            [color]: {
-                ...colorStates[color],
-                state: value
-            }
+            [color]: { ...colorStates[color], state: value }
         };
         setColorStates(newColors);
         await saveChanges(newColors, controllerStates, consoleState);
@@ -109,8 +113,7 @@ function Modal({
 
         const newControllers = [...controllerStates];
         if (value > newControllers.length) {
-            while (newControllers.length < value)
-                newControllers.push({ color: '', state: 'Goed', imageKey: Date.now() });
+            while (newControllers.length < value) newControllers.push({ color: '', state: 'Goed', imageKey: Date.now() });
         } else {
             newControllers.length = value;
         }
@@ -121,11 +124,7 @@ function Modal({
 
     const handleControllerChange = async (index, key, value) => {
         const copy = [...controllerStates];
-        copy[index] = {
-            ...copy[index],
-            [key]: value,
-            ...(key === 'color' ? { imageKey: Date.now() } : {})
-        };
+        copy[index] = { ...copy[index], [key]: value, ...(key === 'color' ? { imageKey: Date.now() } : {}) };
         setControllerStates(copy);
         await saveChanges(colorStates, copy, consoleState);
     };
@@ -168,7 +167,7 @@ function Modal({
         ];
     };
 
-    // ================= GELUID MET PROGRESS IN KNOP =================
+    // ================= GELUID MET PROGRESS =================
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
     const audioRef = useRef(null);
@@ -185,9 +184,7 @@ function Modal({
             setIsPlaying(true);
 
             progressInterval.current = setInterval(() => {
-                if (audio.duration) {
-                    setProgress((audio.currentTime / audio.duration) * 100);
-                }
+                if (audio.duration) setProgress((audio.currentTime / audio.duration) * 100);
             }, 100);
 
             audio.onended = () => {
@@ -229,6 +226,20 @@ function Modal({
                             )}
                         </button>
                     </div>
+
+
+
+                    {/* Alleen standaard console state tonen als er geen kleuren of slechts één kleur is */}
+                    {(!consoleItem.colors || consoleItem.colors.length <= 1) && (
+                        <div className="console-state-section">
+                            <label>Status console:</label>
+                            <select value={consoleState} onChange={(e) => handleConsoleStateChange(e.target.value)}>
+                                {['Nieuw', 'Goed', 'Gebruikt', 'Slecht'].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                        </div>
+                    )}
+
+
 
                     <div className="dimensions">
                         {consoleItem.dimensions
@@ -351,6 +362,8 @@ function Modal({
                     <div className="remove-section">
                         <button className="removebutton" onClick={onRemove}>Remove from Collection</button>
                     </div>
+
+
                 </div>
             </div>
 

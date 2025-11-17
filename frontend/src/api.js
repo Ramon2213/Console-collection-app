@@ -1,5 +1,4 @@
-// api.js
-const BASE_URL = 'http://localhost:3000';
+﻿const BASE_URL = 'http://localhost:3000';
 
 export async function register(username, password) {
     const res = await fetch(`${BASE_URL}/register`, {
@@ -79,6 +78,25 @@ export async function updateConsoleDetails(username, consoleName, controllers, c
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, consoleName, controllers, controllerColors, colors, state })
+    });
+    return res.json();
+}
+
+export async function clearCollection(username) {
+    const res = await fetch(`${BASE_URL}/collection/clear`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
+    });
+    return res.json();
+}
+
+
+export async function clearWishlist(username) {
+    const res = await fetch(`${BASE_URL}/collection/favorite/clear`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username })
     });
     return res.json();
 }

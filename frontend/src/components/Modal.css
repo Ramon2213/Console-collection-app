@@ -216,3 +216,30 @@
 .play-button.playing {
     background-color: #f44336;
 }
+
+
+
+
+
+/* Console kleuren naast elkaar */
+.console-colors-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Controller varianten naast elkaar */
+.controller-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Hover glow voor alle clickable afbeeldingen */
+.modal-image.clickable:hover {
+
+    transform: scale(1.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
